@@ -7,10 +7,15 @@ header#banner.hero-unit
     img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
 
 .container
+  .row(ng-controller='MainCtrl')
+    .col-lg-12
+      button.btn.btn-default Upload
+      button(type='file', ngf-select='', ng-model='myFiles', ng-model-rejected='rejFiles', ngf-change='fileSelected($files, $event)', ngf-multiple='true|false', ngf-capture="'camera'|'other'", accept="'image/*'", ngf-accept="'image/*'|validate($file)", ngf-min-size='10', ngf-max-size='10') Upload
+
   .row
     .col-lg-12
       h1.page-header Features:
-      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='thing in awesomeThings')
+      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='thing in vm.awesomeThings')
         li
           a(href='#', tooltip='{{thing.info}}')
             | {{thing.name}}
