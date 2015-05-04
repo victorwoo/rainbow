@@ -9,8 +9,13 @@
 
 'use strict';
 
-var multiparty = require('multiparty');
-exports.uploadFile = function (req, res, next) {
+var fs = require('fs'),
+  path = require('path'),
+  multiparty = require('multiparty');
+
+exports.uploadFile = uploadFile;
+
+function uploadFile (req, res, next) {
   //生成multiparty对象，并配置下载目标路径
   var form = new multiparty.Form({uploadDir: './public/files/'});
   //下载后处理
@@ -21,9 +26,14 @@ exports.uploadFile = function (req, res, next) {
       console.log('parse error: ' + err);
     } else {
       console.log('parse files: ' + filesTmp);
-      var inputFile = files.inputFile[0];
+      var inputFile = files.file[0];
       var uploadedPath = inputFile.path;
-      var dstPath = './public/files/' + inputFile.originalFilename;
+      //var dstPath = './public/files/' + inputFile.originalFilename;
+
+      var newBaseName = getRandomFileName(inputFile.originalFilename);
+      var ext = path.extname(inputFile.originalFilename);
+
+      var dstPath = './public/files/' + newBaseName + ext;
       //重命名为真实文件名
       fs.rename(uploadedPath, dstPath, function (err) {
         if (err) {
@@ -34,8 +44,13 @@ exports.uploadFile = function (req, res, next) {
       });
     }
 
-    res.writeHead(200, {'content-type': 'text/plain;charset=utf-8'});
-    res.write('received upload:\n\n');
-    res.end(JSON.stringify({fields: fields, files: filesTmp}));
+    //res.writeHead(200, {'content-type': 'text/plain;charset=utf-8'});
+    //res.write('received upload:\n\n');
+    //res.end(JSON.stringify({receipt: newBaseName}));
+    res.json({receipt: newBaseName});
   });
-};
+}
+
+function getRandomFileName(originalFilename) {
+  return String(Math.random()).substr(2);
+}
