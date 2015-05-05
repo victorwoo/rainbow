@@ -8,6 +8,7 @@
 
     vm.awesomeThings = [];
     vm.upload = upload;
+    vm.rainbowCount = 4;
 
     activate();
 
@@ -34,7 +35,7 @@
         var file = files[i];
         Upload.upload({
           url: '/api/rainbow/uploads',
-          fields: {'username': $scope.username},
+          fields: {rainbowCount: vm.rainbowCount},
           file: file
         }).progress(function (evt) {
           var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);

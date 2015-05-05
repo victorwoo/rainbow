@@ -12,9 +12,9 @@ div(ng-include='"components/navbar/navbar.html"')
       div
         | watching model:
         .button(ngf-select='', ng-model='vm.files') Upload using model $watch
-        |     Drop File:
-        .drop-box(ngf-drop='', ng-model='vm.files', ngf-drag-over-class='dragover', ngf-multiple='true', ngf-allow-dir='true', ngf-accept="'.jpg,.png,.pdf'") Drop Images or PDFs files here
-        div(ngf-no-file-drop='') File Drag/Drop is not supported for this browser
+        label
+          | rainbow count:
+          input(type="number", min="1", max="16" ng-model="vm.rainbowCount")
         |     Image thumbnail:
         img(ngf-src='vm.files[0]')
 
