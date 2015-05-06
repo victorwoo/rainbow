@@ -9,6 +9,7 @@
     vm.awesomeThings = [];
     vm.upload = upload;
     vm.rainbowCount = 4;
+    vm.rainbows = [];
 
     activate();
 
@@ -42,6 +43,7 @@
           console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
         }).success(function (data, status, headers, config) {
           console.log('file ' + config.file.name + 'uploaded. Response: ' + JSON.stringify(data));
+          vm.rainbows = data;
         });
       }
     }
