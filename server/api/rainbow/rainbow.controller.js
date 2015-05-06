@@ -13,13 +13,16 @@ var fs = require('fs'),
   path = require('path'),
   multiparty = require('multiparty'),
   ImageJS = require("imagejs"),
-  Bitmap = ImageJS.Bitmap;
+  Bitmap = ImageJS.Bitmap,
+  uploadDir = path.join(__dirname, '../../public/files');
 
 exports.uploadFile = uploadFile;
 
 function uploadFile(req, res, next) {
+
+  console.log(uploadDir);
   //生成multiparty对象，并配置下载目标路径
-  var form = new multiparty.Form({uploadDir: './public/files/'});
+  var form = new multiparty.Form({uploadDir: uploadDir});
   //下载后处理
   form.parse(req, function (err, fields, files) {
     var filesTmp = JSON.stringify(files, null, 2);
@@ -36,7 +39,7 @@ function uploadFile(req, res, next) {
       var ext = path.extname(inputFile.originalFilename);
       var newFileName = newBaseName + ext;
 
-      var dstPath = './public/files/' + newFileName;
+      var dstPath = path.join(uploadDir, newFileName);
       //重命名为真实文件名
       fs.rename(uploadedPath, dstPath, function (err) {
         if (err) {
@@ -94,7 +97,8 @@ function getRandomFileName(originalFilename) {
 
 function convertToRainbow(fileName, rainbowCount, callback) {
   // read JPG data from stream
-  var stream = fs.createReadStream('./public/files/' + fileName);
+  var file = path.join(uploadDir, fileName);
+  var stream = fs.createReadStream(file);
   var bitmap = new Bitmap();
   bitmap.read(stream, {type: ImageJS.ImageType.JPG})
     .then(function () {
