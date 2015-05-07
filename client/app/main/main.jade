@@ -1,34 +1,23 @@
 div(ng-include='"components/navbar/navbar.html"')
 
-//header#banner.hero-unit
-//  .container
-//    h1 'Allo, 'Allo!
-//    p.lead Kick-start your next web app with Angular Fullstack
-//    img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
-
 .container
   .row
     .col-lg-12
-      div
-        | watching model:
-        .button(ngf-select='', ng-model='vm.files') Upload using model $watch
-        label
-          | rainbow count:
-          input(type='number', min='1', max='16' ng-model='vm.rainbowCount')
-        |     Image thumbnail:
-        img(ngf-src='vm.files[0]')
+      form.form-inline
+        .form-group
+          label(for='rainbowCount')
+            | &nbsp;
+          input#rainbowCount.form-control(type='number', min='1', max='16' ng-model='vm.rainbowCount')
+        | &nbsp;
+        button.btn.btn-primary(ngf-select='', ng-model='vm.files') 上传图片
+        | &nbsp;显示颜色数值：
+        input(type='checkbox', ng-model='vm.shouldShowValue')
   .row
-    .col-lg-12
-      | rainbows:
-      div(ng-repeat='rainbow in vm.rainbows', style='background: {{rainbow}}; height: 32px;')
-
-  .row
-    .col-lg-12
-      h1.page-header Features:
-      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='thing in vm.awesomeThings')
-        li
-          a(href='#', tooltip='{{thing.info}}')
-            | {{thing.name}}
+    .col-lg-6
+      img(width='100%', ngf-src='vm.files[0]')
+    .col-lg-6
+      div(ng-repeat='rainbow in vm.rainbows', style='background: {{rainbow}}; height: 48px; margin: 10px;')
+        span(ng-show='vm.shouldShowValue') {{rainbow}}
 
 //footer.footer
 //  .container
